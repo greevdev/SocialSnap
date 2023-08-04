@@ -3,7 +3,7 @@
     border: 1px solid #35383d;
     border-radius: 1em;
     text-align: center;
-    width: 25%;
+    width: 40em;
 }
 
 .form-wrapper h1 {
@@ -34,6 +34,7 @@
     padding: 0.5rem;
     margin-bottom: 1.5em;
     transition: border-color 0.3s ease-in-out;
+    width: 100%;
 }
 
 .form input:focus {
@@ -56,4 +57,14 @@
     background-color: #171b21;
 }
 
+.form div {
+    display: flex;
+}
 
+.form div input:nth-child(1) {
+    margin-right: 0.5em;
+}
+
+.form div input:nth-child(2) {
+    margin-left: 0.5em;
+}

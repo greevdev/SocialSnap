@@ -3,4 +3,5 @@
 
 {% block page_content %}
     <h1>Welcome, {{ username }}!</h1>
+    <a href="{% url 'logout user' %}">Logout</a>
 {% endblock %}

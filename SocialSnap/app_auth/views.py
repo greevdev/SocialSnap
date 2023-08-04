@@ -1,32 +1,36 @@
-from django.contrib.auth import login
+from django.contrib.auth import login, logout
 from django.contrib.auth.forms import AuthenticationForm
-from django.shortcuts import render, redirect
+from django.shortcuts import redirect
+from django.views import View
+from django.views.generic import FormView
+
 from .forms import RegisterForm
 
 
-def register_view(request):
-    if request.method == "POST":
-        form = RegisterForm(request.POST)
+class RegisterView(FormView):
+    template_name = 'common/register.html'
+    form_class = RegisterForm
+    success_url = '/auth/login/'
 
-        if form.is_valid():
-            form.save()
-            return redirect('login page')
-    else:
-        form = RegisterForm()
-
-    return render(request, 'common/register.html', {'form': form})
+    def form_valid(self, form):
+        form.save()
+        return super().form_valid(form)
 
 
-def login_view(request):
-    if request.method == 'POST':
-        form = AuthenticationForm(data=request.POST)
+class LoginView(FormView):
+    template_name = 'common/login.html'
+    form_class = AuthenticationForm
+    success_url = '/dashboard/'
 
-        if form.is_valid():
-            user = form.get_user()
-            login(request, user)
-            return redirect('dashboard page')
+    def form_valid(self, form):
+        user = form.get_user()
+        login(self.request, user)
 
-    else:
-        form = AuthenticationForm()
+        return super().form_valid(form)
 
-    return render(request, 'common/login.html', {'form': form})
+
+class LogoutView(View):
+    def get(self, request):
+        logout(request)
+
+        return redirect('landing page')

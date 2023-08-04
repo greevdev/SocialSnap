@@ -6,6 +6,7 @@ def landing_page(request):
     return render(request, template_name='common/landing.html')
 
 
+@login_required
 def dashboard_page(request):
     context = {
         'username': request.user.get_username()
