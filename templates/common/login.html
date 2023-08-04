@@ -1,0 +1,22 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block page_content %}
+    <div class="form-wrapper">
+        <h1>Sign In</h1>
+
+        <form method="post" class="form">
+            <span class="help-text">Username</span>
+            {{ form.username }}
+
+            <span class="help-text">Password</span>
+            {{ form.password }}
+            {% csrf_token %}
+
+            <button type="submit">Sign In</button>
+
+            <span>Don't have an account? <a href="{% url 'register page' %}">Sign Up</a></span>
+
+        </form>
+    </div>
+{% endblock %}

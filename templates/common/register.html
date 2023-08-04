@@ -1,0 +1,35 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block page_content %}
+    <div class="form-wrapper">
+        <h1>Register</h1>
+
+        <form method="post" class="form">
+            <span class="help-text">Username</span>
+            {{ form.username }}
+
+            <span class="help-text">Email</span>
+            {{ form.email }}
+
+            <span class="help-text">First and Last Name</span>
+            <div>
+                {{ form.first_name }}
+                {{ form.last_name }}
+            </div>
+
+            <span class="help-text">Password</span>
+            {{ form.password1 }}
+
+            <span class="help-text">Confirm Password</span>
+            {{ form.password2 }}
+
+            {% csrf_token %}
+
+            <button type="submit">Sign Up</button>
+
+            <span>Already have an account? <a href="{% url 'login page' %}">Login</a></span>
+
+        </form>
+    </div>
+{% endblock %}

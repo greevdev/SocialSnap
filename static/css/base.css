@@ -1,0 +1,22 @@
+.navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    border-bottom: 1px solid #35383d;
+    padding: 0.5em 0;
+    overflow: hidden;
+}
+
+.logo-container {
+    width: fit-content;
+    margin: 0 auto;
+}
+
+.logo-container .logo {
+    width: 3em;
+    height: auto;
+}
+
+.page-content {
+    margin: 7em 3em 0 3em;
+}

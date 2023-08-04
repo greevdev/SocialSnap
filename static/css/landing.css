@@ -1,0 +1,35 @@
+.landing-wrapper {
+    display: inline-block;
+    border: 1px solid #35383d;
+    border-radius: 1em;
+    padding: 3em;
+    margin: 15em 0 0 5em;
+    width: 50em;
+}
+
+.landing-wrapper h1 {
+    font-size: 5rem;
+}
+
+.landing-wrapper span {
+    font-weight: 200;
+    color: #4ed1d8;
+}
+
+.landing-wrapper p {
+    max-width: 40em;
+    margin: 1em 0 3em 0;
+}
+
+.landing-wrapper a {
+    border: 1px solid #4ed1d8;
+    border-radius: 0.75rem;
+    font-size: 1.25rem;
+    font-weight: 300;
+    padding: 0.5rem 1rem;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.landing-wrapper a:hover {
+    background-color: #171b21;
+}
