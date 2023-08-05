@@ -1,0 +1,22 @@
+{% load static %}
+
+<header>
+    <nav class="navbar">
+        <div class="logo-container">
+            <a href="{% url 'dashboard page' %}">
+                <img src="{% static 'images/logo.png' %}" alt="Social Snap" class="logo">
+            </a>
+        </div>
+
+        <div class="search-container">
+            <input type="text" class="search-input" placeholder="Search">
+            <i class="fa-solid fa-magnifying-glass fa-lg search-icon" style="color: #35383d;"></i>
+        </div>
+
+        <div class="profile-icon-container">
+            <a href="{% url 'my profile' %}">
+                <img src="{% static 'images/default-user-icon.jpg' %}" alt="My Profile" class="profile-icon">
+            </a>
+        </div>
+    </nav>
+</header>

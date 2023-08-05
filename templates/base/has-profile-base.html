@@ -1,0 +1,25 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet"
+          href="{% static 'css/has-profile-styles.css' %}">
+    <link rel="icon" type="image/x-icon" href="{% static 'images/logo.png' %}">
+    <title>Social Snap</title>
+    <script src="https://kit.fontawesome.com/616fd56ddd.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+
+{% include 'base/has-profile-navbar.html' %}
+
+<main class="centered-container">
+    <div class="page-content">
+        {% block page_content %}
+        {% endblock %}
+    </div>
+</main>
+
+</body>
+</html>

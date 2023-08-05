@@ -1,0 +1,72 @@
+.navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    border-bottom: 1px solid #35383d;
+    overflow: hidden;
+    display: flex;
+    justify-content: space-between;
+    background-color: rgba(14, 16, 20, 0.3);
+    backdrop-filter: blur(10px);
+}
+
+.logo-container .logo {
+    width: 4em;
+    height: auto;
+    margin-left: 2em;
+}
+
+.profile-icon-container {
+    margin: auto 3em auto 0;
+}
+
+.profile-icon {
+    width: 3em;
+    height: auto;
+    border-radius: 50%;
+    border: 1px solid #35383d;
+}
+
+.page-content {
+    margin-top: 4em;
+}
+
+.search-container {
+    margin: auto 0;
+    border: 1px solid #35383d;
+    border-radius: 2em;
+    height: fit-content;
+    width: 20em;
+}
+
+.search-input {
+    border: none;
+    background-color: #0e1014;
+    border-radius: 2em 0 0 2em;
+    height: 3em;
+    width: 88%;
+    border-right: 1px solid #35383d;
+    padding-left: 1em;
+    color: #EEEEEE;
+}
+
+.search-icon {
+    margin-left: 0.1em;
+    cursor: pointer;
+}
+
+.centered-container {
+    display: flex;
+    justify-content: center;
+    min-height: 100vh;
+}
+
+.page-content {
+    display: flex;
+    flex-direction: column;
+    border-left: 1px solid #35383d;
+    border-right: 1px solid #35383d;
+    width: 50%;
+    height: auto;
+    padding: 2em;
+}

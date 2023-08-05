@@ -3,8 +3,9 @@
     top: 0;
     width: 100%;
     border-bottom: 1px solid #35383d;
-    padding: 0.5em 0;
     overflow: hidden;
+    display: flex;
+    justify-content: space-between;
 }
 
 .logo-container {
@@ -13,7 +14,7 @@
 }
 
 .logo-container .logo {
-    width: 3em;
+    width: 4em;
     height: auto;
 }
 
