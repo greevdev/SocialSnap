@@ -1,5 +1,5 @@
 .form-wrapper {
-    margin: 15em auto 0 auto;
+    margin: 10em auto 0 auto;
     border: 1px solid #35383d;
     border-radius: 1em;
     text-align: center;
@@ -24,7 +24,7 @@
     font-size: 1.2em;
 }
 
-.form input {
+.form input, textarea {
     background-color: transparent;
     border: 1px solid #35383d;
     border-radius: 0.25em;
@@ -35,6 +35,11 @@
     margin-bottom: 1.5em;
     transition: border-color 0.3s ease-in-out;
     width: 100%;
+}
+
+.form textarea {
+    max-width: 100%;
+    max-height: 10em;
 }
 
 .form input:focus {
@@ -53,11 +58,6 @@
     transition: background-color 0.3s ease-in-out;
 }
 
-.form input[type=file] button {
-    color: red;
-}
-
-
 .form button:hover {
     background-color: #171b21;
 }
@@ -73,3 +73,16 @@
 .form div input:nth-child(2) {
     margin-left: 0.5em;
 }
+
+.form input[type="file"]::file-selector-button {
+    background-color: transparent;
+    border: 1px solid #35383d;
+    border-radius: 0.5em;
+    color: #EEEEEE;
+    font-family: inherit;
+    font-size: 1.25rem;
+    padding: 0.75rem;
+    margin-right: 1em;
+    cursor: pointer;
+}
+

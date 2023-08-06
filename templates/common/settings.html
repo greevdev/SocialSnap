@@ -1,0 +1,15 @@
+{% extends 'base/has-profile-base.html' %}
+{% load static %}
+
+{% block page_content %}
+    <div class="settings-page-wrapper">
+        <h1>Profile Settings</h1>
+
+        <div class="settings-wrapper">
+            <a class="setting" href="{% url 'edit profile' username %}">Change Profile Information</a>
+            <a class="setting" href="#">Change Password</a>
+            <a class="setting" href="{% url 'logout user' %}">Log out @{{ username }}</a>
+            <a class="setting" href="#">Delete Account</a>
+        </div>
+    </div>
+{% endblock %}

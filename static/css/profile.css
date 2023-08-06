@@ -8,8 +8,11 @@
 
 .profile-pic {
     width: 14em;
+    height: 14em;
     border-radius: 50%;
     border: 1px solid #35383d;
+    object-fit: cover;
+    clip-path: circle(50%);
 }
 
 .profile-info {
@@ -64,7 +67,15 @@
     background-color: #c4c2c2;
 }
 
-.unfollow-button {
+.settings-button a {
+    color: #EEEEEE;
+}
+
+.settings-button:hover {
+    border-color: #4ed1d8;
+}
+
+.unfollow-button, .settings-button {
     background-color: #0e1014;
     color: #EEEEEE;
     border: 1px solid #35383d;
@@ -81,3 +92,4 @@
     border-color: #9e0e10;
     color: #ed2024;
 }
+

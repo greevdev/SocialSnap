@@ -1,0 +1,31 @@
+{% extends 'base/has-profile-base.html' %}
+{% load static %}
+
+{% block page_content %}
+    <div class="form-wrapper">
+        <h1>Edit Profile Information</h1>
+
+        <form method="post" class="form" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <span class="help-text">First and Last Name</span>
+            <div>
+                {{ form.first_name }}
+                {{ form.last_name }}
+            </div>
+
+            <span class="help-text">Email</span>
+            {{ form.email }}
+
+            <span class="help-text">Bio</span>
+            {{ form.bio }}
+
+            <span class="help-text">Profile Picture</span>
+            {{ form.profile_picture }}
+
+            {% csrf_token %}
+
+            <button type="submit">Save</button>
+        </form>
+    </div>
+{% endblock %}

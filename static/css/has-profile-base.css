@@ -46,9 +46,18 @@
     color: #EEEEEE;
 }
 
-.search-icon {
-    margin-left: 0.1em;
-    cursor: pointer;
+.search-button {
+    height: 3em;
+    width: 2.86em;
+    margin-left: -0.4em;
+    border: none;
+    border-radius: 0 1.75em 1.75em 0;
+    background-color: #0e1014;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.search-button:hover {
+    background-color: #35383d;
 }
 
 .centered-container {

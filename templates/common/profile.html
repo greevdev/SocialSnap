@@ -5,7 +5,7 @@
     <div class="profile-wrapper">
         <div class="profile-pic-container">
             {% if profile_pic %}
-                <img src="{{ profile_pic }}" alt="pfp" class="profile-pic">
+                <img src="{{ profile_pic.url }}" alt="pfp" class="profile-pic">
             {% else %}
                 <img src="{% static 'images/default-user-icon.jpg' %}" alt="pfp" class="profile-pic">
             {% endif %}
@@ -28,16 +28,18 @@
 
             {% if user != request.user %}
                 {% if user.profile in request.user.profile.following.all %}
-                    <form action="{% url 'unfollow user' user.username %}" method="post">
+                    <form action="{% url 'unfollow user' username %}" method="post">
                         {% csrf_token %}
                         <button type="submit" class="unfollow-button">Unfollow</button>
                     </form>
                 {% else %}
-                    <form action="{% url 'follow user' user.username %}" method="post">
+                    <form action="{% url 'follow user' username %}" method="post">
                         {% csrf_token %}
                         <button type="submit" class="follow-button">Follow</button>
                     </form>
                 {% endif %}
+            {% else %}
+                <button class="settings-button"><a href="{% url 'settings' %}">Edit Profile</a></button>
             {% endif %}
         </div>
     </div>

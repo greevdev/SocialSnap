@@ -1,9 +1,11 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.http import Http404
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
 from django.views import View
 from SocialSnap.app_auth.models import User
+from .forms import EditProfileForm
 from.models import Profile, Post
 
 
@@ -89,3 +91,61 @@ class UnfollowUserView(LoginRequiredMixin, View):
             user_to_unfollow_profile.followers_profiles.remove(logged_in_user_profile)
 
         return redirect('user profile', username=username)
+
+
+@login_required
+def search_view(request):
+    if 'q' in request.GET:
+        query = request.GET.get('q')
+        try:
+            profile = get_object_or_404(Profile, user__username=query)
+            return redirect('user profile', username=profile.user.username)
+        except Profile.DoesNotExist:
+            raise Http404("User not found")
+    else:
+        return redirect('dashboard page')
+
+
+@login_required
+def settings_view(request):
+    context = {
+        'username': request.user.get_username()
+    }
+
+    return render(request, context=context, template_name='common/settings.html')
+
+
+class EditProfileView(LoginRequiredMixin, View):
+    template_name = 'common/edit-profile.html'
+
+    def get(self, request, username):
+        user = request.user
+        profile = Profile.objects.get(user=user)
+        form = EditProfileForm(initial={
+            'first_name': profile.user.first_name,
+            'last_name': profile.user.last_name,
+            'email': profile.user.email,
+            'bio': profile.bio,
+        })
+        context = {
+            'form': form,
+        }
+        return render(request, self.template_name, context=context)
+
+    def post(self, request, username):
+        user = request.user
+        profile = Profile.objects.get(user=user)
+        form = EditProfileForm(request.POST, request.FILES, instance=profile)
+
+        if form.is_valid():
+            form.save()
+            return redirect('user profile', username=user.username)
+
+        context = {
+            'form': form,
+        }
+        return render(request, self.template_name, context=context)
+
+
+def custom_404(request, exception):
+    return render(request, 'common/404.html', status=404)

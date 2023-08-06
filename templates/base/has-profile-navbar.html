@@ -9,8 +9,10 @@
         </div>
 
         <div class="search-container">
-            <input type="text" class="search-input" placeholder="Search">
-            <i class="fa-solid fa-magnifying-glass fa-lg search-icon" style="color: #35383d;"></i>
+            <form action="{% url 'search' %}" method="get">
+                 <input type="text" name="q" class="search-input" placeholder="Search">
+                 <button class="search-button" type="submit"><i class="fa-solid fa-magnifying-glass fa-lg search-icon" style="color: #989797;"></i></button>
+            </form>
         </div>
 
         <div class="profile-icon-container">

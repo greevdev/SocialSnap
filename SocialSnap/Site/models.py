@@ -14,11 +14,15 @@ class Post(models.Model):
 
 
 class Profile(models.Model):
+    def profile_picture_path(instance, filename):
+        return f'profile-pictures/{filename}'
+
+
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     bio = models.TextField(blank=True, null=True, max_length=200)
     followers = models.ManyToManyField('self', symmetrical=False, related_name='following_profiles', blank=True)
     following = models.ManyToManyField('self', symmetrical=False, related_name='followers_profiles', blank=True)
-    profile_picture = models.ImageField(upload_to='media/', blank=False, null=True)
+    profile_picture = models.ImageField(upload_to=profile_picture_path, blank=False, null=True)
 
     def __str__(self):
         return self.user.username

@@ -1,0 +1,28 @@
+.settings-page-wrapper h1 {
+    padding: 1em;
+    border-bottom: 1px solid #35383d;
+}
+
+.settings-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 3em;
+    padding: 2em;
+}
+
+.setting {
+    color: #EEEEEE;
+    font-size: 1.25rem;
+    font-family: inherit;
+    background-color: #0e1014;
+    border: 1px solid #35383d;
+    font-weight: 300;
+    padding: 1.5em;
+    border-radius: 2em;
+    transition: border-color 0.3s ease-in-out;
+}
+
+.setting:hover {
+    border-color: #4ed1d8;
+}
+
