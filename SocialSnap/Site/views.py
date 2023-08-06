@@ -1,8 +1,10 @@
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
 from django.views import View
 from SocialSnap.app_auth.models import User
+from.models import Profile, Post
 
 
 def landing_page(request):
@@ -18,17 +20,33 @@ def dashboard_page(request):
     return render(request, context=context, template_name='common/dashboard.html')
 
 
-class UserProfileView(View):
+class UserProfileView(View, LoginRequiredMixin):
     template_name = 'common/profile.html'
 
     def get(self, request, username):
         user = get_object_or_404(User, username=username)
+        profile = get_object_or_404(Profile, user=user)
+
+        posts = Post.objects.filter(creator=user)
+        post_count = posts.count()
+        followers_count = profile.followers.count()
+        following_count = profile.following.count()
+
+        is_following = request.user.is_authenticated and profile.followers.filter(pk=request.user.pk).exists()
 
         context = {
+            'user': user,
+            'profile': profile,
             'username': user.username,
-            'email': user.email,
             'first_name': user.first_name,
             'last_name': user.last_name,
+            'bio': profile.bio,
+            'profile_pic': profile.profile_picture,
+            'posts': posts,
+            'followers_count': followers_count,
+            'following_count': following_count,
+            'post_count': post_count,
+            'is_following': is_following,
         }
 
         return render(request, self.template_name, context=context)
@@ -41,3 +59,33 @@ def my_profile(request):
     url = reverse('user profile', kwargs={'username': username})
 
     return redirect(url)
+
+
+class FollowUserView(LoginRequiredMixin, View):
+    def post(self, request, username):
+        user_to_follow_profile = get_object_or_404(Profile, user__username=username)
+        logged_in_user_profile = request.user.profile
+
+        # Check if the logged-in user is already following the user_to_follow
+        if user_to_follow_profile in logged_in_user_profile.following.all():
+            # If already following, redirect back to the user profile
+            return redirect('user profile', username=username)
+        else:
+            # If not already following, add the follow relationship
+            user_to_follow_profile.followers.add(logged_in_user_profile)
+            logged_in_user_profile.following.add(user_to_follow_profile)
+            return redirect('user profile', username=username)
+
+
+class UnfollowUserView(LoginRequiredMixin, View):
+    def post(self, request, username):
+        user_to_unfollow_profile = get_object_or_404(Profile, user__username=username)
+        logged_in_user_profile = request.user.profile
+
+        # Check if the logged-in user is following the user_to_unfollow
+        if user_to_unfollow_profile in logged_in_user_profile.following_profiles.all():
+            # If following, remove the follow relationship
+            logged_in_user_profile.following_profiles.remove(user_to_unfollow_profile)
+            user_to_unfollow_profile.followers_profiles.remove(logged_in_user_profile)
+
+        return redirect('user profile', username=username)

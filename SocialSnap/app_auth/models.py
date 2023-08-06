@@ -29,7 +29,6 @@ class User(AbstractBaseUser):
     username = models.CharField(unique=True, max_length=30)
     first_name = models.CharField(max_length=30, blank=True, null=False)
     last_name = models.CharField(max_length=30, blank=True, null=False)
-    profile_picture = models.ImageField(upload_to='media/', blank=False, null=True)
 
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)

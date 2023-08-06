@@ -15,7 +15,11 @@
 
         <div class="profile-icon-container">
             <a href="{% url 'my profile' %}">
-                <img src="{% static 'images/default-user-icon.jpg' %}" alt="My Profile" class="profile-icon">
+                {% if profile_pic %}
+                    <img src="{{ profile_pic }}" alt="pfp" class="profile-icon">
+                {% else %}
+                    <img src="{% static 'images/default-user-icon.jpg' %}" alt="pfp" class="profile-icon">
+                {% endif %}
             </a>
         </div>
     </nav>

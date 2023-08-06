@@ -2,8 +2,43 @@
 {% load static %}
 
 {% block page_content %}
-{{ username }}
-{{ email }}
-{{ first_name }}
-{{ last_name }}
+    <div class="profile-wrapper">
+        <div class="profile-pic-container">
+            {% if profile_pic %}
+                <img src="{{ profile_pic }}" alt="pfp" class="profile-pic">
+            {% else %}
+                <img src="{% static 'images/default-user-icon.jpg' %}" alt="pfp" class="profile-pic">
+            {% endif %}
+        </div>
+
+        <div class="profile-info">
+            <div class="names-and-bio">
+                <h1 id="names">{{ first_name }} {{ last_name }}</h1>
+                <h3 id="username">@{{ username }}</h3>
+                <p class="bio">
+                    {{ bio }}
+                </p>
+            </div>
+        </div>
+
+        <div class="social-metrics">
+            <h4 class="followers">{{ followers_count }} <span class="metrics-type">Followers</span></h4>
+            <h4 class="following">{{ following_count }} <span class="metrics-type">Following</span></h4>
+            <h4 class="posts">{{ post_count }} <span class="metrics-type">Posts</span></h4>
+
+            {% if user != request.user %}
+                {% if user.profile in request.user.profile.following.all %}
+                    <form action="{% url 'unfollow user' user.username %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="unfollow-button">Unfollow</button>
+                    </form>
+                {% else %}
+                    <form action="{% url 'follow user' user.username %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="follow-button">Follow</button>
+                    </form>
+                {% endif %}
+            {% endif %}
+        </div>
+    </div>
 {% endblock %}

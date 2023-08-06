@@ -5,6 +5,7 @@ from django.views import View
 from django.views.generic import FormView
 
 from .forms import RegisterForm
+from ..Site.models import Profile
 
 
 class RegisterView(FormView):
@@ -13,8 +14,13 @@ class RegisterView(FormView):
     success_url = '/auth/login/'
 
     def form_valid(self, form):
-        form.save()
+        user = form.save()
+        Profile.objects.create(user=user)
+
         return super().form_valid(form)
+
+    def form_invalid(self, form):
+        return self.render_to_response(self.get_context_data(form=form))
 
 
 class LoginView(FormView):
