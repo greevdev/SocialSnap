@@ -6,6 +6,8 @@
     overflow: hidden;
     display: flex;
     justify-content: space-between;
+    background-color: rgba(14, 16, 20, 0.3);
+    backdrop-filter: blur(10px);
 }
 
 .logo-container {

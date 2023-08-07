@@ -20,4 +20,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('SocialSnap.Site.urls')),
     path('auth/', include('SocialSnap.app_auth.urls')),
+    
 ]

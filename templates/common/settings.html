@@ -7,9 +7,9 @@
 
         <div class="settings-wrapper">
             <a class="setting" href="{% url 'edit profile' username %}">Change Profile Information</a>
-            <a class="setting" href="#">Change Password</a>
+            <a class="setting" href="{% url 'change password' username %}">Change Password</a>
             <a class="setting" href="{% url 'logout user' %}">Log out @{{ username }}</a>
-            <a class="setting" href="#">Delete Account</a>
+            <a class="setting" href="{% url 'delete profile' username %}">Delete Profile</a>
         </div>
     </div>
 {% endblock %}

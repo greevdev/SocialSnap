@@ -1,11 +1,14 @@
+from django.contrib.auth import authenticate, logout, update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import Http404
 from django.shortcuts import render, get_object_or_404, redirect
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from django.views import View
+from django.views.generic import DeleteView
+
 from SocialSnap.app_auth.models import User
-from .forms import EditProfileForm
+from .forms import EditProfileForm, DeleteAccountForm, ChangePasswordForm
 from.models import Profile, Post
 
 
@@ -147,5 +150,47 @@ class EditProfileView(LoginRequiredMixin, View):
         return render(request, self.template_name, context=context)
 
 
-def custom_404(request, exception):
-    return render(request, 'common/404.html', status=404)
+@login_required
+def delete_account(request, username):
+    if request.method == 'POST':
+        form = DeleteAccountForm(request.POST)
+
+        if form.is_valid():
+            user = request.user
+            password = form.cleaned_data['password']
+
+            if authenticate(request, username=user.username, password=password):
+                user.delete()
+                logout(request)
+                return redirect('landing page')
+            else:
+                form.add_error('password', 'Invalid password. Please try again.')
+
+    else:
+        form = DeleteAccountForm()
+
+    return render(request, 'common/delete-profile.html', {'form': form})
+
+
+@login_required()
+def change_password(request, username):
+    if request.method == 'POST':
+        form = ChangePasswordForm(request.POST)
+
+        if form.is_valid():
+            user = request.user
+            current_password = form.cleaned_data['current_password']
+            new_password = form.cleaned_data['new_password1']
+
+            if user.check_password(current_password):
+                user.set_password(new_password)
+                user.save()
+                update_session_auth_hash(request, user)
+                return redirect('dashboard page')
+            else:
+                form.add_error('current_password', 'Invalid password. Please try again.')
+
+    else:
+        form = ChangePasswordForm()
+
+    return render(request, 'common/change-password.html', {'form': form})

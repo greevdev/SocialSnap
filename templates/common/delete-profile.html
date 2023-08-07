@@ -1,0 +1,19 @@
+{% extends 'base/has-profile-base.html' %}
+{% load static %}
+
+{% block page_content %}
+    <div class="form-wrapper">
+        <h1>Delete Profile</h1>
+
+        <p>Are you sure you want to delete your profile? This action cannot be undone.</p>
+
+        <form method="post" class="form" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <span class="help-text">Confirm your password</span>
+            {{ form.password }}
+
+            <button type="submit">Delete profile</button>
+        </form>
+    </div>
+{% endblock %}
