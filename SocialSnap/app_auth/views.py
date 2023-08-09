@@ -26,7 +26,7 @@ class RegisterView(FormView):
 class LoginView(FormView):
     template_name = 'common/login.html'
     form_class = AuthenticationForm
-    success_url = '/dashboard/'
+    success_url = '/home/'
 
     def form_valid(self, form):
         user = form.get_user()

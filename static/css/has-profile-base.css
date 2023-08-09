@@ -25,19 +25,23 @@
     height: auto;
     border-radius: 50%;
     border: 1px solid #35383d;
+    object-fit: cover;
+    clip-path: circle(50%);
 }
 
 .search-container {
     margin: auto 0;
-    border: 1px solid #35383d;;
+    border: 1px solid #35383d;
     display: flex;
     flex-direction: row;
     border-radius: 1em;
+    background: #0e1014;
 }
 
 .search-input {
     border: none;
-    background-color: transparent;
+    background-color: #0e1014;
+    border-radius: 1em;
     padding-left: 1em;
     color: #EEEEEE;
 }
@@ -61,6 +65,5 @@
     border-left: 1px solid #35383d;
     border-right: 1px solid #35383d;
     min-width: 50%;
-    height: auto;
     margin-top: 4em;
 }

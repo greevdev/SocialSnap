@@ -1,0 +1,17 @@
+{% extends 'base/has-profile-base.html' %}
+{% load static %}
+
+{% block page_content %}
+    <div class="form-wrapper">
+        <h1>Create New Post</h1>
+
+        <form method="post" class="form" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            {{ form.content }}
+            {{ form.image }}
+
+            <button type="submit">Create Post</button>
+        </form>
+    </div>
+{% endblock %}

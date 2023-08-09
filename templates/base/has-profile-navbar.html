@@ -3,7 +3,7 @@
 <header>
     <nav class="navbar">
         <div class="logo-container">
-            <a href="{% url 'dashboard page' %}">
+            <a href="{% url 'home page' %}">
                 <img src="{% static 'images/logo.png' %}" alt="Social Snap" class="logo">
             </a>
         </div>
@@ -17,8 +17,8 @@
 
         <div class="profile-icon-container">
             <a href="{% url 'my profile' %}">
-                {% if profile_pic %}
-                    <img src="{{ profile_pic }}" alt="pfp" class="profile-icon">
+                {% if user.profile.profile_picture %}
+                    <img src="{{ user.profile.profile_picture.url }}" alt="pfp" class="profile-icon">
                 {% else %}
                     <img src="{% static 'images/default-user-icon.jpg' %}" alt="pfp" class="profile-icon">
                 {% endif %}

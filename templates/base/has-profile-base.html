@@ -8,6 +8,11 @@
     <link rel="icon" type="image/x-icon" href="{% static 'images/logo.png' %}">
     <title>Social Snap</title>
     <script src="https://kit.fontawesome.com/616fd56ddd.js" crossorigin="anonymous"></script>
+
+    <script>
+        const csrf_token = "{{ csrf_token }}";
+    </script>
+    <script src="{% static 'js/post.js' %}"></script>
 </head>
 
 <body>

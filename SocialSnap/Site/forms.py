@@ -1,5 +1,5 @@
 from django import forms
-from .models import Profile
+from .models import Profile, Post
 
 
 class EditProfileForm(forms.ModelForm):
@@ -49,3 +49,9 @@ class ChangePasswordForm(forms.Form):
             raise forms.ValidationError("New passwords do not match.")
 
         return cleaned_data
+
+
+class PostForm(forms.ModelForm):
+    class Meta:
+        model = Post
+        fields = ['content', 'image']

@@ -1,15 +1,15 @@
 from django.contrib.auth import authenticate, logout, update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.http import Http404
+from django.http import Http404, JsonResponse
 from django.shortcuts import render, get_object_or_404, redirect
-from django.urls import reverse, reverse_lazy
+from django.urls import reverse
+from django.utils.decorators import method_decorator
 from django.views import View
-from django.views.generic import DeleteView
 
 from SocialSnap.app_auth.models import User
-from .forms import EditProfileForm, DeleteAccountForm, ChangePasswordForm
-from.models import Profile, Post
+from .forms import EditProfileForm, DeleteAccountForm, ChangePasswordForm, PostForm
+from .models import Profile, Post
 
 
 def landing_page(request):
@@ -17,12 +17,15 @@ def landing_page(request):
 
 
 @login_required
-def dashboard_page(request):
+def home_page(request):
+    user = request.user
+
     context = {
-        'username': request.user.get_username()
+        'username': user.get_username(),
+        'user': user
     }
 
-    return render(request, context=context, template_name='common/dashboard.html')
+    return render(request, context=context, template_name='common/home.html')
 
 
 class UserProfileView(View, LoginRequiredMixin):
@@ -111,8 +114,10 @@ def search_view(request):
 
 @login_required
 def settings_view(request):
+    user = request.user
     context = {
-        'username': request.user.get_username()
+        'username': user.get_username(),
+        'user': user
     }
 
     return render(request, context=context, template_name='common/settings.html')
@@ -129,9 +134,11 @@ class EditProfileView(LoginRequiredMixin, View):
             'last_name': profile.user.last_name,
             'email': profile.user.email,
             'bio': profile.bio,
+            'profile_picture': profile.profile_picture,
         })
         context = {
             'form': form,
+            'user': user
         }
         return render(request, self.template_name, context=context)
 
@@ -146,12 +153,16 @@ class EditProfileView(LoginRequiredMixin, View):
 
         context = {
             'form': form,
+            'user': user
         }
+
         return render(request, self.template_name, context=context)
 
 
 @login_required
 def delete_account(request, username):
+    user = request.user
+
     if request.method == 'POST':
         form = DeleteAccountForm(request.POST)
 
@@ -169,16 +180,17 @@ def delete_account(request, username):
     else:
         form = DeleteAccountForm()
 
-    return render(request, 'common/delete-profile.html', {'form': form})
+    return render(request, 'common/delete-profile.html', {'form': form, 'user': user})
 
 
 @login_required()
 def change_password(request, username):
+    user = request.user
+
     if request.method == 'POST':
         form = ChangePasswordForm(request.POST)
 
         if form.is_valid():
-            user = request.user
             current_password = form.cleaned_data['current_password']
             new_password = form.cleaned_data['new_password1']
 
@@ -193,4 +205,35 @@ def change_password(request, username):
     else:
         form = ChangePasswordForm()
 
-    return render(request, 'common/change-password.html', {'form': form})
+    return render(request, 'common/change-password.html', {'form': form, 'user': user})
+
+
+@login_required()
+def create_post(request, username):
+    if request.method == 'POST':
+        form = PostForm(request.POST, request.FILES)
+
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.creator = request.user
+            post.save()
+            return redirect('my profile')
+    else:
+        form = PostForm()
+
+    return render(request, 'common/create-post.html', {'form': form})
+
+
+class LikePostView(View):
+    @method_decorator(login_required)
+    def post(self, request, post_id):
+        post = get_object_or_404(Post, id=post_id)
+
+        if request.user in post.likes.all():
+            post.likes.remove(request.user)
+            liked = False
+        else:
+            post.likes.add(request.user)
+            liked = True
+
+        return JsonResponse({'liked': liked, 'likes_count': post.likes.count()})
