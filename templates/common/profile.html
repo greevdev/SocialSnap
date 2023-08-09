@@ -76,7 +76,9 @@
                                 </div>
                             </div>
 
-                            <a style="color: #EEEEEE; height: fit-content; padding: 1em" href="{% url 'edit post' post.id %}"><i class="fa-solid fa-ellipsis-vertical fa-lg"></i></a>
+                            {% if post.creator == request.user %}
+                                <a style="color: #EEEEEE; height: fit-content; padding: 1em" href="{% url 'edit post' post.id %}"><i class="fa-solid fa-ellipsis-vertical fa-lg"></i></a>
+                            {% endif %}
                         </div>
 
                         <div class="post-content">

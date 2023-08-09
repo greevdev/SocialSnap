@@ -104,7 +104,7 @@
     margin: 2em;
 }
 
-.profile-posts-container > h3 {
+.profile-posts-container > h3, .home-page-posts > h3 {
     margin: 1em;
     text-align: center;
     color: #35383d;

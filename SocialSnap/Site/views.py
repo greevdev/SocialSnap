@@ -18,14 +18,15 @@ def landing_page(request):
 
 @login_required
 def home_page(request):
-    user = request.user
+    following_profiles = request.user.profile.following_profiles.all()
+    posts = Post.objects.filter(creator__profile__in=following_profiles).order_by('-created_at')
 
     context = {
-        'username': user.get_username(),
-        'user': user
+        'posts': posts,
+        'username': request.user.username,
     }
 
-    return render(request, context=context, template_name='common/home.html')
+    return render(request, 'common/home.html', context=context)
 
 
 class UserProfileView(View, LoginRequiredMixin):

@@ -2,6 +2,64 @@
 {% load static %}
 
 {% block page_content %}
-    <h1>Welcome, {{ username }}!</h1>
-    <a href="{% url 'logout user' %}">Logout</a>
+    <h1 class="home-page-title">Home</h1>
+
+    <a class="create-post-button" href="{% url 'create post' username %}">Create Post</a>
+
+    <div class="home-page-posts">
+        {% if not posts %}
+            <h3>No posts to show</h3>
+        {% else %}
+
+            <ul type="none" class="profile-posts">
+
+            {% for post in posts %}
+                <li class="post">
+                    <div class="creator-info">
+                        <div class="creator-picture-and-names">
+                            {% if post.creator.profile.profile_picture %}
+                                <img src="{{ post.creator.profile.profile_picture.url }}" alt="pfp" class="creator-profile-pic">
+                            {% else %}
+                                <img src="{% static 'images/default-user-icon.jpg' %}" alt="pfp" class="creator-profile-pic">
+                            {% endif %}
+
+                            <div class="creator-names-and-username">
+                                <h3 class="creator-names">{{ post.creator.first_name }} {{ post.creator.last_name }}</h3>
+                                <p class="creator-username">@{{ post.creator.username }}</p>
+                            </div>
+                        </div>
+
+                        {% if post.creator == request.user %}
+                            <a style="color: #EEEEEE; height: fit-content; padding: 1em" href="{% url 'edit post' post.id %}"><i class="fa-solid fa-ellipsis-vertical fa-lg"></i></a>
+                        {% endif %}
+                    </div>
+
+                    <div class="post-content">
+                        <h3 class="post-caption">{{ post.content }}</h3>
+
+                    {% if post.image %}
+                        <img class="post-image" src="{{ post.image.url }}" alt="Post Image">
+                    {% endif %}
+                    </div>
+
+                   <div class="post-info">
+                        <form method="post" action="{% url 'like post' post.id %}">
+                            {% csrf_token %}
+                            <button class="like-button {% if user in post.likes.all %}active{% endif %}" data-post-id="{{ post.id }}">
+                                <span class="liked"><i class="fa-solid fa-heart"></i></span>
+                                <span class="likes-count"> {{ post.likes.count }}</span>
+                                <span>Likes</span>
+                            </button>
+                        </form>
+
+                        <div class="post-date-container">
+                            <span class="post-date">{{ post.created_at }}</span>
+                        </div>
+                   </div>
+
+                </li>
+            {% endfor %}
+        </ul>
+            {% endif %}
+    </div>
 {% endblock %}
