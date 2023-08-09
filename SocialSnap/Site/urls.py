@@ -2,7 +2,8 @@ from django.conf.urls.static import static
 from django.urls import path, include
 from django.conf import settings
 from .views import landing_page, home_page, UserProfileView, my_profile, FollowUserView, UnfollowUserView, \
-    search_view, settings_view, EditProfileView, delete_account, change_password, create_post, LikePostView
+    search_view, settings_view, EditProfileView, delete_account, change_password, create_post, LikePostView, \
+    EditPostView, DeletePostView
 
 urlpatterns = [
     path('', landing_page, name='landing page'),
@@ -20,6 +21,9 @@ urlpatterns = [
     path('search/', search_view, name='search'),
     path('settings/', settings_view, name='settings'),
     path('like/<int:post_id>/', LikePostView.as_view(), name='like post'),
+    path('editpost/<int:post_id>/', EditPostView.as_view(), name='edit post'),
+    path('deletepost/<int:post_id>/', DeletePostView.as_view(), name='delete post'),
+
 ]
 
 if settings.DEBUG:

@@ -1,0 +1,15 @@
+{% extends 'base/has-profile-base.html' %}
+
+{% block page_content %}
+    <div class="form-wrapper">
+        <h1>Delete Post</h1>
+
+        <p>Are you sure you want to delete the following post?</p>
+
+        <form class="form" method="post" action="{% url 'delete post' post.id %}">
+            {% csrf_token %}
+            <button type="submit" class="delete-button">Delete Post</button>
+            <span class="help-text" style="text-align: center;"><a style="color: #EEEEEE;" href="{% url 'edit post' post.id %}">Cancel</a></span>
+        </form>
+    </div>
+{% endblock %}

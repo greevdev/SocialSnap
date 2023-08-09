@@ -55,3 +55,9 @@ class PostForm(forms.ModelForm):
     class Meta:
         model = Post
         fields = ['content', 'image']
+
+
+class EditPostForm(forms.ModelForm):
+    class Meta:
+        model = Post
+        fields = ['content', 'image']

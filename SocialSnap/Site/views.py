@@ -8,7 +8,7 @@ from django.utils.decorators import method_decorator
 from django.views import View
 
 from SocialSnap.app_auth.models import User
-from .forms import EditProfileForm, DeleteAccountForm, ChangePasswordForm, PostForm
+from .forms import EditProfileForm, DeleteAccountForm, ChangePasswordForm, PostForm, EditPostForm
 from .models import Profile, Post
 
 
@@ -35,7 +35,7 @@ class UserProfileView(View, LoginRequiredMixin):
         user = get_object_or_404(User, username=username)
         profile = get_object_or_404(Profile, user=user)
 
-        posts = Post.objects.filter(creator=user)
+        posts = Post.objects.filter(creator=user).order_by('-created_at')
         post_count = posts.count()
         followers_count = profile.followers.count()
         following_count = profile.following.count()
@@ -237,3 +237,48 @@ class LikePostView(View):
             liked = True
 
         return JsonResponse({'liked': liked, 'likes_count': post.likes.count()})
+
+
+class EditPostView(LoginRequiredMixin, View):
+    template_name = 'common/edit-post.html'
+
+    def get(self, request, post_id):
+        post = get_object_or_404(Post, id=post_id, creator=request.user)
+        form = EditPostForm(instance=post)
+
+        context = {
+            'form': form,
+            'post': post,
+        }
+        return render(request, self.template_name, context=context)
+
+    def post(self, request, post_id):
+        post = get_object_or_404(Post, id=post_id, creator=request.user)
+        form = EditPostForm(request.POST, request.FILES, instance=post)
+
+        if form.is_valid():
+            form.save()
+            return redirect('user profile', username=request.user.username)
+
+        context = {
+            'form': form,
+            'post': post,
+        }
+
+        return render(request, self.template_name, context=context)
+
+
+class DeletePostView(LoginRequiredMixin, View):
+    template_name = 'common/delete-post.html'
+
+    def get(self, request, post_id):
+        post = get_object_or_404(Post, id=post_id, creator=request.user)
+        context = {
+            'post': post,
+        }
+        return render(request, self.template_name, context=context)
+
+    def post(self, request, post_id):
+        post = get_object_or_404(Post, id=post_id, creator=request.user)
+        post.delete()
+        return redirect('user profile', username=request.user.username)

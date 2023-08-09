@@ -10,6 +10,11 @@
 
 .creator-info {
     display: flex;
+    justify-content: space-between;
+}
+
+.creator-picture-and-names {
+    display: flex;
 }
 
 .creator-names-and-username {
@@ -79,5 +84,18 @@
 
 .like-button.active .liked {
     color: #f02416;
+}
+
+.post-info {
+    display: flex;
+}
+
+.post-date-container {
+    margin: auto 1em;
+}
+
+.post-date {
+    font-weight: 500;
+    color: #9da1a8;
 }
 

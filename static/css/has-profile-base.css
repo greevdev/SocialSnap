@@ -8,6 +8,7 @@
     justify-content: space-between;
     background-color: rgba(14, 16, 20, 0.3);
     backdrop-filter: blur(10px);
+    z-index: 1000;
 }
 
 .logo-container .logo {
@@ -41,8 +42,8 @@
 .search-input {
     border: none;
     background-color: #0e1014;
-    border-radius: 1em;
-    padding-left: 1em;
+    border-radius: 2em;
+    padding: 0.5em 1em;
     color: #EEEEEE;
 }
 

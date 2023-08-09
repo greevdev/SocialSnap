@@ -3,7 +3,7 @@
 
 {% block page_content %}
     <div class="settings-page-wrapper">
-        <h1>Profile Settings</h1>
+        <h1> <a href="{% url 'my profile' %}"><button class="go-back-button"><i class="fa-solid fa-arrow-left fa-lg" style="color: #EEEEEE;"></i></button></a> Profile Settings</h1>
 
         <div class="settings-wrapper">
             <a class="setting" href="{% url 'edit profile' username %}">Change Profile Information</a>

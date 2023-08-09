@@ -25,7 +25,7 @@
 
 #username {
     color: #9da1a8;
-    font-weight: 300;
+    font-weight: 400;
 }
 
 .names-and-bio .bio {
@@ -108,4 +108,22 @@
     margin: 1em;
     text-align: center;
     color: #35383d;
+}
+
+.go-back-button {
+    height: fit-content;
+    width: fit-content;
+    background: none;
+    border: 1px solid #35383d;
+    border-radius: 50%;
+    padding: 1em;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.go-back-button:hover {
+    background-color: #171b21;
+}
+
+h1 .go-back-button {
+    margin-right: 2em;
 }

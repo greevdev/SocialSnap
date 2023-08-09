@@ -1,0 +1,22 @@
+{% extends 'base/has-profile-base.html' %}
+{% load static %}
+
+{% block page_content %}
+    <div class="form-wrapper">
+        <h1>Edit Post</h1>
+
+        <form method="post" class="form" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <span class="help-text">Content</span>
+            {{ form.content }}
+
+            <span class="help-text">Image</span>
+            {{ form.image }}
+
+            <button type="submit">Save Changes</button>
+            <span class="help-text" style="text-align: center;"><a style="color: #ed2024;" href="{% url 'delete post' post.id %}">Delete Post</a></span>
+            <span class="help-text" style="text-align: center;"><a style="color: #EEEEEE;" href="{% url 'home page' %}">Cancel</a></span>
+        </form>
+    </div>
+{% endblock %}
