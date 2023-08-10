@@ -3,7 +3,7 @@ from django.urls import path, include
 from django.conf import settings
 from .views import landing_page, home_page, UserProfileView, my_profile, FollowUserView, UnfollowUserView, \
     search_view, settings_view, EditProfileView, delete_account, change_password, create_post, LikePostView, \
-    EditPostView, DeletePostView
+    EditPostView, DeletePostView, UserConnectionsView
 
 urlpatterns = [
     path('', landing_page, name='landing page'),
@@ -16,6 +16,7 @@ urlpatterns = [
         path('delete/', delete_account, name='delete profile'),
         path('password/', change_password, name='change password'),
         path('createpost/', create_post, name='create post'),
+        path('connections/', UserConnectionsView.as_view(), name='connections'),
     ])),
     path('myprofile/', my_profile, name='my profile'),
     path('search/', search_view, name='search'),

@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block page_content %}
-    <h1 class="home-page-title">Home</h1>
+    <h1 style="padding: 1em; border-bottom: 1px solid #35383d;" class="page-title">Home</h1>
 
     <a class="create-post-button" href="{% url 'create post' username %}">Create Post</a>
 
@@ -17,11 +17,13 @@
                 <li class="post">
                     <div class="creator-info">
                         <div class="creator-picture-and-names">
-                            {% if post.creator.profile.profile_picture %}
-                                <img src="{{ post.creator.profile.profile_picture.url }}" alt="pfp" class="creator-profile-pic">
-                            {% else %}
-                                <img src="{% static 'images/default-user-icon.jpg' %}" alt="pfp" class="creator-profile-pic">
-                            {% endif %}
+                            <a href="{% url 'user profile' post.creator %}">
+                                {% if post.creator.profile.profile_picture %}
+                                    <img src="{{ post.creator.profile.profile_picture.url }}" alt="pfp" class="creator-profile-pic">
+                                {% else %}
+                                    <img src="{% static 'images/default-user-icon.jpg' %}" alt="pfp" class="creator-profile-pic">
+                                {% endif %}
+                            </a>
 
                             <div class="creator-names-and-username">
                                 <h3 class="creator-names">{{ post.creator.first_name }} {{ post.creator.last_name }}</h3>

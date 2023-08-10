@@ -45,6 +45,10 @@
     margin-bottom: 1em;
 }
 
+.social-metrics a {
+    color: #EEEEEE;
+}
+
 .metrics-type {
     color: #9da1a8;
     font-weight: 300;
@@ -108,6 +112,7 @@
     margin: 1em;
     text-align: center;
     color: #35383d;
+    font-weight: 300;
 }
 
 .go-back-button {

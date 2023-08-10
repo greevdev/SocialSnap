@@ -27,8 +27,10 @@
             </div>
 
             <div class="social-metrics">
-                <h4 class="followers">{{ followers_count }} <span class="metrics-type">Followers</span></h4>
-                <h4 class="following">{{ following_count }} <span class="metrics-type">Following</span></h4>
+                <a href="{% url 'connections' username %}">
+                    <h4 class="followers">{{ followers_count }} <span class="metrics-type">Followers</span></h4>
+                    <h4 class="following">{{ following_count }} <span class="metrics-type">Following</span></h4>
+                </a>
                 <h4 class="posts">{{ post_count }} <span class="metrics-type">Posts</span></h4>
 
                 {% if user != request.user %}
@@ -64,11 +66,13 @@
                     <li class="post">
                         <div class="creator-info">
                             <div class="creator-picture-and-names">
-                                {% if post.creator.profile.profile_picture %}
-                                    <img src="{{ post.creator.profile.profile_picture.url }}" alt="pfp" class="creator-profile-pic">
-                                {% else %}
-                                    <img src="{% static 'images/default-user-icon.jpg' %}" alt="pfp" class="creator-profile-pic">
-                                {% endif %}
+                                <a href="{% url 'user profile' post.creator %}">
+                                    {% if post.creator.profile.profile_picture %}
+                                        <img src="{{ post.creator.profile.profile_picture.url }}" alt="pfp" class="creator-profile-pic">
+                                    {% else %}
+                                        <img src="{% static 'images/default-user-icon.jpg' %}" alt="pfp" class="creator-profile-pic">
+                                    {% endif %}
+                                </a>
 
                                 <div class="creator-names-and-username">
                                     <h3 class="creator-names">{{ post.creator.first_name }} {{ post.creator.last_name }}</h3>

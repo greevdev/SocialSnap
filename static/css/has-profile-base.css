@@ -23,7 +23,7 @@
 
 .profile-icon {
     width: 3em;
-    height: auto;
+    height: 3em;
     border-radius: 50%;
     border: 1px solid #35383d;
     object-fit: cover;

@@ -17,8 +17,8 @@
 
         <div class="profile-icon-container">
             <a href="{% url 'my profile' %}">
-                {% if user.profile.profile_picture %}
-                    <img src="{{ user.profile.profile_picture.url }}" alt="pfp" class="profile-icon">
+                {% if request.user.profile.profile_picture %}
+                    <img src="{{ request.user.profile.profile_picture.url }}" alt="pfp" class="profile-icon">
                 {% else %}
                     <img src="{% static 'images/default-user-icon.jpg' %}" alt="pfp" class="profile-icon">
                 {% endif %}

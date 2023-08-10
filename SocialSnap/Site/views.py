@@ -283,3 +283,28 @@ class DeletePostView(LoginRequiredMixin, View):
         post = get_object_or_404(Post, id=post_id, creator=request.user)
         post.delete()
         return redirect('user profile', username=request.user.username)
+
+
+class UserConnectionsView(LoginRequiredMixin, View):
+    template_name = 'common/connections.html'
+
+    def get(self, request, username):
+        user = get_object_or_404(User, username=username)
+        profile = get_object_or_404(Profile, user=user)
+
+        followers = profile.followers.all()
+        following = profile.following.all()
+
+        followers_count = followers.count()
+        following_count = following.count()
+
+        context = {
+            'user': user,
+            'profile': profile,
+            'followers': followers,
+            'following': following,
+            'followers_count': followers_count,
+            'following_count': following_count,
+        }
+
+        return render(request, self.template_name, context=context)

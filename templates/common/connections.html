@@ -1,0 +1,60 @@
+{% extends 'base/has-profile-base.html' %}
+{% load static %}
+
+{% block page_content %}
+    <div class="connections-wrapper">
+        <div class="following-wrapper">
+            <h1 class="connections-title">Following</h1>
+
+            {% if following %}
+                {% for followed_user in following %}
+
+                    <div class="creator-picture-and-names">
+                        <a href="{% url 'user profile' followed_user %}">
+                            {% if followed_user.profile_picture %}
+                                <img src="{{ followed_user.profile_picture.url }}" alt="pfp" class="creator-profile-pic">
+                            {% else %}
+                                <img src="{% static 'images/default-user-icon.jpg' %}" alt="pfp" class="creator-profile-pic">
+                            {% endif %}
+                        </a>
+
+                        <div class="creator-names-and-username">
+                            <h3 class="creator-names">{{ followed_user.user.first_name }} {{ followed_user.user.last_name }}</h3>
+                            <p class="creator-username">@{{ followed_user.user.username }}</p>
+                        </div>
+                    </div>
+                {% endfor %}
+
+            {% else %}
+                <h3 class="nothing-to-show">No following users to show</h3>
+            {% endif %}
+        </div>
+
+        <div class="followers-wrapper">
+            <h1 class="connections-title">Followers</h1>
+
+            {% if followers %}
+                {% for user_follower in followers %}
+
+                    <div class="creator-picture-and-names">
+                        <a href="{% url 'user profile' user_follower %}">
+                            {% if user_follower.profile_picture %}
+                                <img src="{{ user_follower.profile_picture.url }}" alt="pfp" class="creator-profile-pic">
+                            {% else %}
+                                <img src="{% static 'images/default-user-icon.jpg' %}" alt="pfp" class="creator-profile-pic">
+                            {% endif %}
+                        </a>
+
+                        <div class="creator-names-and-username">
+                            <h3 class="creator-names">{{ user_follower.user.first_name }} {{ user_follower.user.last_name }}</h3>
+                            <p class="creator-username">@{{ user_follower.user.username }}</p>
+                        </div>
+                    </div>
+                {% endfor %}
+
+            {% else %}
+                <h3 class="nothing-to-show">No followers to show</h3>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

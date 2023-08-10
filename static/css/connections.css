@@ -1,0 +1,33 @@
+.connections-wrapper {
+    display: flex;
+    justify-content: space-between;
+    min-height: 100vh;
+}
+
+.connections-wrapper .creator-picture-and-names {
+    margin: 0.75em;
+    padding-bottom: 0.5em;
+    border-bottom: 1px solid #35383d;
+}
+
+.nothing-to-show {
+    text-align: center;
+    color: #35383d;
+    font-weight: 300;
+    margin-top: 0.5em;
+}
+
+.connections-title {
+    padding: 1em;
+    border-bottom: 1px solid #35383d;
+    text-align: center;
+}
+
+.following-wrapper {
+    min-width: 50%;
+    border-right: 1px solid #35383d;
+}
+
+.followers-wrapper {
+    min-width: 50%;
+}
