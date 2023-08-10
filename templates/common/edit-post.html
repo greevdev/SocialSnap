@@ -12,7 +12,12 @@
             {{ form.content }}
 
             <span class="help-text">Image</span>
-            {{ form.image }}
+            <input type="file" name="{{ form.image.name }}">
+
+            <span class="help-text">Clear Image</span>
+            <div class="checkbox-wrapper">
+                <input style="text-align: start" type="checkbox" name="clear_image" class="checkbox">
+            </div>
 
             <button type="submit">Save Changes</button>
             <span class="help-text" style="text-align: center;"><a style="color: #ed2024;" href="{% url 'delete post' post.id %}">Delete Post</a></span>

@@ -21,7 +21,7 @@
             {{ form.bio }}
 
             <span class="help-text">Profile Picture</span>
-            {{ form.profile_picture }}
+            <input type="file" name="{{ form.profile_picture.name }}">
 
             <button type="submit">Save</button>
             <span class="help-text" style="text-align: center;"><a style="color: #EEEEEE;" href="{% url 'settings' %}">Cancel</a></span>

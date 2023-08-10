@@ -257,7 +257,11 @@ class EditPostView(LoginRequiredMixin, View):
         post = get_object_or_404(Post, id=post_id, creator=request.user)
         form = EditPostForm(request.POST, request.FILES, instance=post)
 
+        clear_image = request.POST.get('clear_image')
+
         if form.is_valid():
+            if clear_image:
+                post.image.delete(save=False)
             form.save()
             return redirect('user profile', username=request.user.username)
 
