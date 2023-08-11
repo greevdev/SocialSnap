@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'SocialSnap.Site',
     'SocialSnap.app_auth',
+    'SocialSnap.admin_app',
 ]
 
 MIDDLEWARE = [
