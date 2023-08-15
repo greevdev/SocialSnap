@@ -4,6 +4,9 @@
     border-radius: 1em;
     text-align: center;
     width: 40em;
+    -webkit-box-shadow: 0px 0px 85px -35px rgba(53,56,61,1);
+    -moz-box-shadow: 0px 0px 85px -35px rgba(53,56,61,1);
+    box-shadow: 0px 0px 85px -35px rgba(53,56,61,1);
 }
 
 .form-wrapper h1 {
