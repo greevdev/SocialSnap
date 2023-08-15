@@ -1,0 +1,25 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet"
+          href="{% static 'css/no-profile-styles.css' %}">
+    <link rel="icon" type="image/x-icon" href="{% static 'images/logo.png' %}">
+    <title>Social Snap</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body>
+
+{% include 'base/has-profile-navbar.html' %}
+
+<main class="page-content">
+    <div class="404-content-container">
+        <h1>404</h1>
+        <p>Page Not Found</p>
+    </div>
+</main>
+
+</body>
+</html>

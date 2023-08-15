@@ -199,7 +199,7 @@ def change_password(request, username):
                 user.set_password(new_password)
                 user.save()
                 update_session_auth_hash(request, user)
-                return redirect('dashboard page')
+                return redirect('home page')
             else:
                 form.add_error('current_password', 'Invalid password. Please try again.')
 
@@ -312,3 +312,7 @@ class UserConnectionsView(LoginRequiredMixin, View):
         }
 
         return render(request, self.template_name, context=context)
+
+
+def custom_404(request, exception):
+    return render(request, 'common/404.html', status=404)
