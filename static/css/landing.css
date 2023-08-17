@@ -5,6 +5,9 @@
     padding: 3em;
     margin: 15em 0 0 5em;
     width: 50em;
+    -webkit-box-shadow: 0px 0px 85px -35px rgba(53,56,61,1);
+    -moz-box-shadow: 0px 0px 85px -35px rgba(53,56,61,1);
+    box-shadow: 0px 0px 85px -35px rgba(53,56,61,1);
 }
 
 .landing-wrapper h1 {
@@ -28,6 +31,11 @@
     font-weight: 300;
     padding: 0.5rem 1rem;
     transition: background-color 0.3s ease-in-out;
+    color: #EEEEEE;
+    -webkit-box-shadow: 0px 0px 61px -24px rgba(78,209,216,1);
+    -moz-box-shadow: 0px 0px 61px -24px rgba(78,209,216,1);
+    box-shadow: 0px 0px 61px -17px rgba(78,209,216,1);
+
 }
 
 .landing-wrapper a:hover {

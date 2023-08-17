@@ -19,10 +19,15 @@
     font-weight: 300;
     padding: 1.5em;
     border-radius: 2em;
-    transition: border-color 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;
+    -webkit-box-shadow: 0px 0px 85px -40px rgba(53,56,61,1);
+    -moz-box-shadow: 0px 0px 85px -40px rgba(53,56,61,1);
+    box-shadow: 0px 0px 85px -40px rgba(53,56,61,1);
 }
 
 .setting:hover {
     border-color: #4ed1d8;
+    -webkit-box-shadow: 0px 0px 61px -17px rgba(78,209,216,1);
+    -moz-box-shadow: 0px 0px 61px -17px rgba(78,209,216,1);
+    box-shadow: 0px 0px 61px -17px rgba(78,209,216,1);
 }
-

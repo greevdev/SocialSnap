@@ -9,8 +9,16 @@
             <span class="help-text">Username</span>
             {{ form.username }}
 
+            {% if form.errors.username %}
+                <span class="validation-error">{{ form.errors.username }}</span>
+            {% endif %}
+
             <span class="help-text">Email</span>
             {{ form.email }}
+
+            {% if form.errors.email %}
+                <span class="validation-error">{{ form.errors.email }}</span>
+            {% endif %}
 
             <span class="help-text">First and Last Name</span>
             <div>
@@ -18,11 +26,29 @@
                 {{ form.last_name }}
             </div>
 
+            {% if form.errors.first_name %}
+                <span class="validation-error">{{ form.errors.first_name }}</span>
+            {% elif form.errors.last_name %}
+                <span class="validation-error">{{ form.errors.last_name }}</span>
+            {% endif %}
+
             <span class="help-text">Password</span>
             {{ form.password1 }}
 
+            {% if form.errors.password1 %}
+                <span class="validation-error">{{ form.errors.password1 }}</span>
+            {% endif %}
+
             <span class="help-text">Confirm Password</span>
             {{ form.password2 }}
+
+            {% if form.errors.password2 %}
+                {% for error in form.errors.password2 %}
+                    {% if error == "The two password fields didn’t match." %}
+                        <span class="validation-error">{{ error }}</span>
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
 
             {% csrf_token %}
 

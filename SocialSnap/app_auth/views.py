@@ -3,7 +3,6 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.shortcuts import redirect
 from django.views import View
 from django.views.generic import FormView
-
 from .forms import RegisterForm
 from ..Site.models import Profile
 
