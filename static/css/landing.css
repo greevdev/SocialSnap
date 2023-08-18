@@ -10,11 +10,11 @@
     box-shadow: 0px 0px 85px -35px rgba(53,56,61,1);
 }
 
-.landing-wrapper h1 {
+.landing-title {
     font-size: 5rem;
 }
 
-.landing-wrapper span {
+.landing-title span {
     font-weight: 200;
     color: #4ed1d8;
 }
@@ -35,7 +35,7 @@
     -webkit-box-shadow: 0px 0px 61px -24px rgba(78,209,216,1);
     -moz-box-shadow: 0px 0px 61px -24px rgba(78,209,216,1);
     box-shadow: 0px 0px 61px -17px rgba(78,209,216,1);
-
+    margin-right: 1em;
 }
 
 .landing-wrapper a:hover {

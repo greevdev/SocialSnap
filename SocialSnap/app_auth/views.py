@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.contrib.auth import login, logout
 from django.contrib.auth.forms import AuthenticationForm
 from django.shortcuts import redirect
@@ -13,10 +14,16 @@ class RegisterView(FormView):
     success_url = '/auth/login/'
 
     def form_valid(self, form):
-        user = form.save()
-        Profile.objects.create(user=user)
+        try:
+            user = form.save()
+            Profile.objects.create(user=user)
 
-        return super().form_valid(form)
+            return super().form_valid(form)
+
+        except Exception as e:
+
+            messages.error(self.request, "An error occurred during registration.")
+            return self.render_to_response(self.get_context_data(form=form, error=str(e)))
 
     def form_invalid(self, form):
         return self.render_to_response(self.get_context_data(form=form))
@@ -28,14 +35,25 @@ class LoginView(FormView):
     success_url = '/home/'
 
     def form_valid(self, form):
-        user = form.get_user()
-        login(self.request, user)
+        try:
+            user = form.get_user()
+            login(self.request, user)
 
-        return super().form_valid(form)
+            return super().form_valid(form)
+
+        except Exception as e:
+
+            messages.error(self.request, "An error occurred during login.")
+            return self.render_to_response(self.get_context_data(form=form, error=str(e)))
 
 
 class LogoutView(View):
     def get(self, request):
-        logout(request)
+        try:
+            logout(request)
+
+        except Exception as e:
+
+            messages.error(request, "An error occurred during logout.")
 
         return redirect('landing page')

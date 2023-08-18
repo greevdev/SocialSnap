@@ -1,0 +1,113 @@
+{% extends 'base/has-profile-base.html' %}
+{% load static %}
+
+{% block page_content %}
+    <h1 style="padding: 1em; border-bottom: 1px solid #35383d;"> <a href="{% if creator == request.user %} {% url 'my profile' %} {% else %} {% url 'home page' %} {% endif %}"><button class="go-back-button"><i class="fa-solid fa-arrow-left fa-lg" style="color: #EEEEEE;"></i></button></a> Post</h1>
+    <div class="post">
+        <div class="creator-info">
+            <div class="creator-picture-and-names">
+                <a href="{% url 'user profile' creator %}">
+                    {% if creator_profile_pic %}
+                        <img src="{{ creator_profile_pic.url }}" alt="pfp" class="creator-profile-pic">
+                    {% else %}
+                        <img src="{% static 'images/default-user-icon.jpg' %}" alt="pfp" class="creator-profile-pic">
+                    {% endif %}
+                </a>
+
+                <div class="creator-names-and-username">
+                    <h3 class="creator-names">{{ creator_first_name }} {{ creator_last_name }}</h3>
+                    <p class="creator-username">@{{ creator_username }}</p>
+                </div>
+            </div>
+
+            {% if creator == request.user %}
+                <a style="color: #EEEEEE; height: fit-content; padding: 1em" href="{% url 'edit post' post.id %}"><i class="fa-solid fa-ellipsis-vertical fa-lg"></i></a>
+            {% endif %}
+        </div>
+
+        <div class="post-content">
+            <h3 class="post-caption">{{ post.content }}</h3>
+
+        {% if post.image %}
+            <img class="post-image" src="{{ post.image.url }}" alt="Post Image">
+        {% endif %}
+        </div>
+
+       <div class="post-info">
+            <form method="post" action="{% url 'like post' post.id %}">
+                {% csrf_token %}
+                <button class="like-button {% if user in post.likes.all %}active{% endif %}" data-post-id="{{ post.id }}">
+                    <span class="liked"><i class="fa-solid fa-heart"></i></span>
+                    <span class="likes-count"> {{ post.likes.count }}</span>
+                    <span>
+                        {% if post.likes.count == 1 %}
+                            Like
+                        {% else %}
+                            Likes
+                        {% endif %}
+                    </span>
+                </button>
+                <a href="{% url 'add comment' post.id %}" class="comment-button">
+                    <i class="fa-solid fa-message"></i>
+                    <span class="comments-count">{{ post.comments.count }}</span>
+                    <span>
+                        {% if post.comments.count == 1 %}
+                            Comment
+                        {% else %}
+                            Comments
+                        {% endif %}
+                    </span>
+                </a>
+            </form>
+
+            <div class="post-date-container">
+                <span class="post-date">{{ post.created_at }}</span>
+            </div>
+       </div>
+    </div>
+
+    {% if post.comments.count == 0 %}
+        <h3 style="
+        margin: 1em;
+        text-align: center;
+        color: #35383d;
+        font-weight: 300;">No comments to show</h3>
+    {% else %}
+        <h1 style="padding: 1em; border-bottom: 1px solid #35383d;">Comments</h1>
+
+        {% for comment in comments %}
+            <div class="post">
+                <div class="creator-info">
+                    <div class="creator-picture-and-names">
+                        <a href="{% url 'user profile' comment.creator %}">
+                            {% if comment.creator.profile.profile_pic %}
+                                <img src="{{ comment.creator.profile.profile_pic.url }}" alt="pfp" class="creator-profile-pic">
+                            {% else %}
+                                <img src="{% static 'images/default-user-icon.jpg' %}" alt="pfp" class="creator-profile-pic">
+                            {% endif %}
+                        </a>
+
+                        <div class="creator-names-and-username">
+                            <h3 class="creator-names">{{ comment.creator.first_name }} {{ comment.creator.last_name }}</h3>
+                            <p class="creator-username">@{{ comment.creator.username }}</p>
+                        </div>
+                    </div>
+
+                    {% if comment.creator == request.user %}
+                        <a style="color: #EEEEEE; height: fit-content; padding: 1em" href="{% url 'edit comment' comment.id %}"><i class="fa-solid fa-ellipsis-vertical fa-lg"></i></a>
+                    {% endif %}
+                </div>
+
+                <div class="post-content">
+                    <h3 class="post-caption">{{ comment.content }}</h3>
+                </div>
+
+               <div class="post-info">
+                    <div class="post-date-container">
+                        <span class="post-date">{{ comment.created_at }}</span>
+                    </div>
+               </div>
+            </div>
+        {% endfor %}
+    {% endif %}
+{% endblock %}

@@ -1,12 +1,13 @@
 from django.conf.urls.static import static
 from django.urls import path, include
 from django.conf import settings
-from .views import landing_page, home_page, UserProfileView, my_profile, FollowUserView, UnfollowUserView, \
+from .views import landing_page, home_page, about_page, UserProfileView, my_profile, FollowUserView, UnfollowUserView, \
     search_view, settings_view, EditProfileView, delete_account, change_password, create_post, LikePostView, \
-    EditPostView, DeletePostView, UserConnectionsView
+    EditPostView, DeletePostView, UserConnectionsView, ViewPostView, add_comment, EditCommentView, DeleteCommentView
 
 urlpatterns = [
     path('', landing_page, name='landing page'),
+    path('about/', about_page, name='about page'),
     path('home/', home_page, name='home page'),
     path('profile/<str:username>/', include([
         path('', UserProfileView.as_view(), name='user profile'),
@@ -24,7 +25,10 @@ urlpatterns = [
     path('like/<int:post_id>/', LikePostView.as_view(), name='like post'),
     path('editpost/<int:post_id>/', EditPostView.as_view(), name='edit post'),
     path('deletepost/<int:post_id>/', DeletePostView.as_view(), name='delete post'),
-
+    path('viewpost/<int:post_id>/', ViewPostView.as_view(), name='view post'),
+    path('comment/<int:post_id>/', add_comment, name='add comment'),
+    path('editcomment/<int:comment_id>/', EditCommentView.as_view(), name='edit comment'),
+    path('deletecomment/<int:comment_id>/', DeleteCommentView.as_view(), name='delete comment'),
 ]
 
 if settings.DEBUG:

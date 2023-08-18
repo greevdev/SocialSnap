@@ -1,0 +1,37 @@
+{% extends 'base/no-profile-base.html' %}
+{% load static %}
+
+{% block page_content %}
+    <h1 class="about-title"><span style="font-weight: 200; color: #9da1a8;">About</span> Social<span>Snap</span></h1>
+
+    <div class="cards">
+        <div class="about-card">
+            <h2 class="card-title">About Us</h2>
+
+            <p class="card-description">Welcome to SocialSnap, the innovative social media platform that revolutionizes the way you connect with friends, family, and kindred spirits from every corner of the globe. At SocialSnap, we believe that genuine connections matter. Our platform is designed to foster meaningful interactions and provide a space where you can share your passions, experiences, and ideas with a diverse and engaged community.</p>
+        </div>
+
+        <div class="about-card">
+            <h2 class="card-title">What Sets Us Apart</h2>
+
+            <p class="card-description">SocialSnap isn't just another social media site – it's a hub of authenticity and shared experiences. Our mission is to provide a virtual space where individuals can build genuine relationships and discover like-minded individuals who resonate with their interests and aspirations. Unlike other platforms, we focus on quality over quantity, enabling you to cultivate meaningful connections that stand the test of time.</p>
+        </div>
+
+        <div class="about-card">
+            <h2 class="card-title">Discover, Connect, Inspire</h2>
+
+            <p class="card-description">With SocialSnap, you have the opportunity to explore a multitude of topics and interests that spark your curiosity. Whether you're an art enthusiast, a travel junkie, a fitness guru, or someone who loves discussing the latest technological advancements, you'll find a community waiting to welcome you with open arms.</p>
+        </div>
+
+        <div class="about-card">
+            <h2 class="card-title">Join the SocialSnap Community</h2>
+
+            <p class="card-description">oin us today and embark on a journey of meaningful connections, intellectual growth, and mutual support. Whether you're seeking to make new friends, share your passions, or simply learn from others, SocialSnap is your platform to thrive. Welcome to a world of limitless possibilities – welcome to SocialSnap!</p>
+        </div>
+    </div>
+
+    <div class="join-now-button-wrapper">
+        <a class="join-now-button" href="{% url 'login page' %}">Join Now</a>
+    </div>
+
+{% endblock %}

@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.urls import path, include, re_path
 from django.views.static import serve
 from SocialSnap import settings
-from SocialSnap.Site.views import custom_404
+from SocialSnap.Site.views import custom_404, custom_500
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -27,4 +27,5 @@ urlpatterns = [
 ]
 
 handler404 = custom_404
+handler505 = custom_500
 

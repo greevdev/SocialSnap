@@ -8,12 +8,17 @@ from django.utils.decorators import method_decorator
 from django.views import View
 
 from SocialSnap.app_auth.models import User
-from .forms import EditProfileForm, DeleteAccountForm, ChangePasswordForm, PostForm, EditPostForm
-from .models import Profile, Post
+from .forms import EditProfileForm, DeleteAccountForm, ChangePasswordForm, PostForm, EditPostForm, CommentForm, \
+    EditCommentForm
+from .models import Profile, Post, Comment
 
 
 def landing_page(request):
     return render(request, template_name='common/landing.html')
+
+
+def about_page(request):
+    return render(request, template_name='common/about.html')
 
 
 @login_required
@@ -33,32 +38,36 @@ class UserProfileView(View, LoginRequiredMixin):
     template_name = 'common/profile.html'
 
     def get(self, request, username):
-        user = get_object_or_404(User, username=username)
-        profile = get_object_or_404(Profile, user=user)
+        try:
+            user = get_object_or_404(User, username=username)
+            profile = get_object_or_404(Profile, user=user)
 
-        posts = Post.objects.filter(creator=user).order_by('-created_at')
-        post_count = posts.count()
-        followers_count = profile.followers.count()
-        following_count = profile.following.count()
+            posts = Post.objects.filter(creator=user).order_by('-created_at')
+            post_count = posts.count()
+            followers_count = profile.followers.count()
+            following_count = profile.following.count()
 
-        is_following = request.user.is_authenticated and profile.followers.filter(pk=request.user.pk).exists()
+            is_following = request.user.is_authenticated and profile.followers.filter(pk=request.user.pk).exists()
 
-        context = {
-            'user': user,
-            'profile': profile,
-            'username': user.username,
-            'first_name': user.first_name,
-            'last_name': user.last_name,
-            'bio': profile.bio,
-            'profile_pic': profile.profile_picture,
-            'posts': posts,
-            'followers_count': followers_count,
-            'following_count': following_count,
-            'post_count': post_count,
-            'is_following': is_following,
-        }
+            context = {
+                'user': user,
+                'profile': profile,
+                'username': user.username,
+                'first_name': user.first_name,
+                'last_name': user.last_name,
+                'bio': profile.bio,
+                'profile_pic': profile.profile_picture,
+                'posts': posts,
+                'followers_count': followers_count,
+                'following_count': following_count,
+                'post_count': post_count,
+                'is_following': is_following,
+            }
 
-        return render(request, self.template_name, context=context)
+            return render(request, self.template_name, context=context)
+
+        except Exception as e:
+            return render(request, 'errors/error.html', {'error_message': str(e)})
 
 
 @login_required
@@ -72,33 +81,36 @@ def my_profile(request):
 
 class FollowUserView(LoginRequiredMixin, View):
     def post(self, request, username):
-        user_to_follow_profile = get_object_or_404(Profile, user__username=username)
-        logged_in_user_profile = request.user.profile
+        try:
+            user_to_follow_profile = get_object_or_404(Profile, user__username=username)
+            logged_in_user_profile = request.user.profile
 
-        # Check if the logged-in user is already following the user_to_follow
-        if user_to_follow_profile in logged_in_user_profile.following.all():
-            # If already following, redirect back to the user profile
-            return redirect('user profile', username=username)
-        else:
-            # If not already following, add the follow relationship
-            user_to_follow_profile.followers.add(logged_in_user_profile)
-            logged_in_user_profile.following.add(user_to_follow_profile)
-            return redirect('user profile', username=username)
+            if user_to_follow_profile in logged_in_user_profile.following.all():
+
+                return redirect('user profile', username=username)
+            else:
+                user_to_follow_profile.followers.add(logged_in_user_profile)
+                logged_in_user_profile.following.add(user_to_follow_profile)
+                return redirect('user profile', username=username)
+
+        except Exception as e:
+            return render(request, 'errors/error.html', {'error_message': str(e)})
 
 
 class UnfollowUserView(LoginRequiredMixin, View):
     def post(self, request, username):
-        user_to_unfollow_profile = get_object_or_404(Profile, user__username=username)
-        logged_in_user_profile = request.user.profile
+        try:
+            user_to_unfollow_profile = get_object_or_404(Profile, user__username=username)
+            logged_in_user_profile = request.user.profile
 
-        # Check if the logged-in user is following the user_to_unfollow
-        if user_to_unfollow_profile in logged_in_user_profile.following_profiles.all():
-            # If following, remove the follow relationship
-            logged_in_user_profile.following_profiles.remove(user_to_unfollow_profile)
-            user_to_unfollow_profile.followers_profiles.remove(logged_in_user_profile)
+            if user_to_unfollow_profile in logged_in_user_profile.following_profiles.all():
+                logged_in_user_profile.following_profiles.remove(user_to_unfollow_profile)
+                user_to_unfollow_profile.followers_profiles.remove(logged_in_user_profile)
 
-        return redirect('user profile', username=username)
+            return redirect('user profile', username=username)
 
+        except Exception as e:
+            return render(request, 'errors/error.html', {'error_message': str(e)})
 
 @login_required
 def search_view(request):
@@ -115,98 +127,117 @@ def search_view(request):
 
 @login_required
 def settings_view(request):
-    user = request.user
-    context = {
-        'username': user.get_username(),
-        'user': user
-    }
+    try:
+        user = request.user
+        context = {
+            'username': user.get_username(),
+            'user': user
+        }
 
-    return render(request, context=context, template_name='common/settings.html')
+        return render(request, context=context, template_name='common/settings.html')
+
+    except Exception as e:
+        return render(request, 'errors/error.html', {'error_message': str(e)})
 
 
 class EditProfileView(LoginRequiredMixin, View):
     template_name = 'common/edit-profile.html'
 
     def get(self, request, username):
-        user = request.user
-        profile = Profile.objects.get(user=user)
-        form = EditProfileForm(initial={
-            'first_name': profile.user.first_name,
-            'last_name': profile.user.last_name,
-            'email': profile.user.email,
-            'bio': profile.bio,
-            'profile_picture': profile.profile_picture,
-        })
-        context = {
-            'form': form,
-            'user': user
-        }
-        return render(request, self.template_name, context=context)
+        try:
+            user = request.user
+            profile = Profile.objects.get(user=user)
+            form = EditProfileForm(initial={
+                'first_name': profile.user.first_name,
+                'last_name': profile.user.last_name,
+                'email': profile.user.email,
+                'bio': profile.bio,
+                'profile_picture': profile.profile_picture,
+            })
+            context = {
+                'form': form,
+                'user': user
+            }
+            return render(request, self.template_name, context=context)
+
+        except Exception as e:
+            return render(request, 'errors/error.html', {'error_message': str(e)})
 
     def post(self, request, username):
-        user = request.user
-        profile = Profile.objects.get(user=user)
-        form = EditProfileForm(request.POST, request.FILES, instance=profile)
+        try:
+            user = request.user
+            profile = Profile.objects.get(user=user)
+            form = EditProfileForm(request.POST, request.FILES, instance=profile)
 
-        if form.is_valid():
-            form.save()
-            return redirect('user profile', username=user.username)
+            if form.is_valid():
+                form.save()
+                return redirect('user profile', username=user.username)
 
-        context = {
-            'form': form,
-            'user': user
-        }
+            context = {
+                'form': form,
+                'user': user
+            }
 
-        return render(request, self.template_name, context=context)
+            return render(request, self.template_name, context=context)
 
+        except Exception as e:
+            return render(request, 'errors/error.html', {'error_message': str(e)})
 
 @login_required
 def delete_account(request, username):
-    user = request.user
+    try:
+        user = request.user
 
-    if request.method == 'POST':
-        form = DeleteAccountForm(request.POST)
+        if request.method == 'POST':
+            form = DeleteAccountForm(request.POST)
 
-        if form.is_valid():
-            user = request.user
-            password = form.cleaned_data['password']
+            if form.is_valid():
+                user = request.user
+                password = form.cleaned_data['password']
 
-            if authenticate(request, username=user.username, password=password):
-                user.delete()
-                logout(request)
-                return redirect('landing page')
-            else:
-                form.add_error('password', 'Invalid password. Please try again.')
+                if authenticate(request, username=user.username, password=password):
+                    user.delete()
+                    logout(request)
+                    return redirect('landing page')
+                else:
+                    form.add_error('password', 'Invalid password. Please try again.')
 
-    else:
-        form = DeleteAccountForm()
+        else:
+            form = DeleteAccountForm()
 
-    return render(request, 'common/delete-profile.html', {'form': form, 'user': user})
+        return render(request, 'common/delete-profile.html', {'form': form, 'user': user})
+
+    except Exception as e:
+        return render(request, 'errors/error.html', {'error_message': str(e)})
 
 
 @login_required()
 def change_password(request, username):
-    user = request.user
+    try:
+        user = request.user
 
-    if request.method == 'POST':
-        form = ChangePasswordForm(request.POST)
+        if request.method == 'POST':
+            form = ChangePasswordForm(request.POST)
 
-        if form.is_valid():
-            current_password = form.cleaned_data['current_password']
-            new_password = form.cleaned_data['new_password1']
+            if form.is_valid():
+                current_password = form.cleaned_data['current_password']
+                new_password = form.cleaned_data['new_password1']
 
-            if user.check_password(current_password):
-                user.set_password(new_password)
-                user.save()
-                update_session_auth_hash(request, user)
-                return redirect('home page')
-            else:
-                form.add_error('current_password', 'Invalid password. Please try again.')
+                if user.check_password(current_password):
+                    user.set_password(new_password)
+                    user.save()
+                    update_session_auth_hash(request, user)
+                    return redirect('home page')
+                else:
+                    form.add_error('current_password', 'Invalid password. Please try again.')
 
-    else:
-        form = ChangePasswordForm()
+        else:
+            form = ChangePasswordForm()
 
-    return render(request, 'common/change-password.html', {'form': form, 'user': user})
+        return render(request, 'common/change-password.html', {'form': form, 'user': user})
+
+    except Exception as e:
+        return render(request, 'errors/error.html', {'error_message': str(e)})
 
 
 @login_required()
@@ -315,4 +346,117 @@ class UserConnectionsView(LoginRequiredMixin, View):
 
 
 def custom_404(request, exception):
-    return render(request, 'common/404.html', status=404)
+    return render(request, 'common/../../templates/errors/404.html', status=404)
+
+
+def custom_500(request, exception):
+    return render(request, 'common/../../templates/errors/500.html', status=500)
+
+
+class ViewPostView(View, LoginRequiredMixin):
+    template_name = 'common/view-post.html'
+
+    def get(self, request, post_id):
+        try:
+            user = request.user
+            profile = get_object_or_404(Profile, user=user)
+
+            post = get_object_or_404(Post, id=post_id)
+
+            creator = post.creator
+            creator_profile = creator.profile
+
+            comments = post.comments.all().order_by('-created_at')
+            context = {
+                'user': user,
+                'profile': profile,
+                'username': user.username,
+                'first_name': user.first_name,
+                'last_name': user.last_name,
+                'profile_pic': profile.profile_picture,
+                'creator': creator,
+                'creator_profile': creator_profile,
+                'creator_username': creator.username,
+                'creator_first_name': creator.first_name,
+                'creator_last_name': creator.last_name,
+                'creator_profile_pic': creator_profile.profile_picture,
+                'post': post,
+                'comments': comments,
+            }
+
+            return render(request, self.template_name, context=context)
+
+        except Exception as e:
+            return render(request, 'errors/error.html', {'error_message': str(e)})
+
+
+def add_comment(request, post_id):
+    try:
+        if request.method == 'POST':
+            form = CommentForm(request.POST, request.FILES)
+
+            if form.is_valid():
+                comment = form.save(commit=False)
+                comment.creator = request.user
+                comment.save()
+                post = get_object_or_404(Post, id=post_id)
+                post.comments.add(comment)
+
+                return redirect(f'/viewpost/{post_id}/')
+        else:
+            form = CommentForm()
+
+        return render(request, 'common/add-comment.html', {'form': form, 'post_id': post_id})
+
+    except Exception as e:
+        return render(request, 'errors/error.html', {'error_message': str(e)})
+
+
+class EditCommentView(LoginRequiredMixin, View):
+    template_name = 'common/edit-comment.html'
+
+    def get(self, request, comment_id):
+        comment = get_object_or_404(Comment, id=comment_id)
+        form = EditCommentForm(instance=comment)
+
+        context = {
+            'form': form,
+            'comment': comment,
+        }
+
+        return render(request, self.template_name, context=context)
+
+    def post(self, request, comment_id):
+        comment = get_object_or_404(Comment, id=comment_id)
+        form = EditCommentForm(request.POST, request.FILES, instance=comment)
+
+
+        if form.is_valid():
+            form.save()
+            return redirect('home page')
+
+        context = {
+            'form': form,
+            'comment': comment,
+        }
+
+        return render(request, self.template_name, context=context)
+
+
+class DeleteCommentView(LoginRequiredMixin, View):
+    template_name = 'common/delete-comment.html'
+
+    def get(self, request, comment_id):
+        comment = get_object_or_404(Comment, id=comment_id)
+
+        context = {
+            'comment': comment,
+        }
+        return render(request, self.template_name, context=context)
+
+    def post(self, request, comment_id):
+        comment = get_object_or_404(Comment, id=comment_id)
+        comment.delete()
+
+        return redirect('home page')
+

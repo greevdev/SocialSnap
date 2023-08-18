@@ -36,13 +36,17 @@
                         {% endif %}
                     </div>
 
-                    <div class="post-content">
-                        <h3 class="post-caption">{{ post.content }}</h3>
 
-                    {% if post.image %}
-                        <img class="post-image" src="{{ post.image.url }}" alt="Post Image">
-                    {% endif %}
-                    </div>
+
+                        <a class="post-link" href="{% url 'view post' post.id %}">
+                            <div class="post-content">
+                                <h3 class="post-caption">{{ post.content }}</h3>
+
+                            {% if post.image %}
+                                <img class="post-image" src="{{ post.image.url }}" alt="Post Image">
+                            {% endif %}
+                            </div>
+                        </a>
 
                    <div class="post-info">
                         <form method="post" action="{% url 'like post' post.id %}">
@@ -50,8 +54,25 @@
                             <button class="like-button {% if user in post.likes.all %}active{% endif %}" data-post-id="{{ post.id }}">
                                 <span class="liked"><i class="fa-solid fa-heart"></i></span>
                                 <span class="likes-count"> {{ post.likes.count }}</span>
-                                <span>Likes</span>
+                                <span>
+                                    {% if post.likes.count == 1 %}
+                                        Like
+                                    {% else %}
+                                        Likes
+                                    {% endif %}
+                                </span>
                             </button>
+                            <a href="{% url 'add comment' post.id %}" class="comment-button">
+                                <i class="fa-solid fa-message"></i>
+                                <span class="comments-count">{{ post.comments.count }}</span>
+                                <span>
+                                    {% if post.comments.count == 1 %}
+                                        Comment
+                                    {% else %}
+                                        Comments
+                                    {% endif %}
+                                </span>
+                            </a>
                         </form>
 
                         <div class="post-date-container">

@@ -24,10 +24,10 @@ function updateLikes(event) {
             likesCount.textContent = data.likes_count;
 
             const likedSpan = likeButton.querySelector(".liked");
-            likedSpan.classList.toggle("active", data.liked); // Toggle the active class
+            likedSpan.classList.toggle("active", data.liked);
 
-            const heartIcon = likedSpan.querySelector("i"); // Get the <i> element
-            heartIcon.style.color = data.liked ? "red" : "white"; // Set color based on liked status
+            const heartIcon = likedSpan.querySelector("i");
+            heartIcon.style.color = data.liked ? "red" : "white";
         })
         .catch((error) => {
             console.error("Error:", error);

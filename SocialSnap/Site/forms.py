@@ -1,5 +1,5 @@
 from django import forms
-from .models import Profile, Post
+from .models import Profile, Post, Comment
 
 
 class EditProfileForm(forms.ModelForm):
@@ -57,3 +57,15 @@ class EditPostForm(forms.ModelForm):
     class Meta:
         model = Post
         fields = ['content', 'image']
+
+
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = ['content']
+
+
+class EditCommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = ['content']

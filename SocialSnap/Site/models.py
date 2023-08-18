@@ -1,7 +1,15 @@
 from django.db import models
 from django.utils import timezone
-
 from SocialSnap.app_auth.models import User
+
+
+class Comment(models.Model):
+    content = models.TextField(max_length=200)
+    creator = models.ForeignKey(User, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(default=timezone.now)
+
+    def __str__(self):
+        return self.content
 
 
 class Post(models.Model):
@@ -10,6 +18,7 @@ class Post(models.Model):
     creator = models.ForeignKey(User, on_delete=models.CASCADE)
     created_at = models.DateTimeField(default=timezone.now)
     likes = models.ManyToManyField(User, related_name='liked_posts', blank=True)
+    comments = models.ManyToManyField(Comment, related_name='comments', blank=True)
 
     def __str__(self):
         return self.content

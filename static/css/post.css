@@ -56,7 +56,7 @@
     border: 1px solid #35383d;
 }
 
-.like-button {
+.like-button, .comment-button {
     background-color: #0e1014;
     color: #EEEEEE;
     border: 1px solid #35383d;
@@ -69,12 +69,12 @@
     transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
 }
 
-.fa-solid.fa-heart {
-    transition: color 0.3s ease-in-out;
+.like-button:hover, .comment-button:hover {
+    background: #171b21;
 }
 
-.like-button:hover {
-    background: #171b21;
+.fa-solid.fa-heart {
+    transition: color 0.3s ease-in-out;
 }
 
 .like-button .liked {
@@ -99,3 +99,7 @@
     color: #9da1a8;
 }
 
+.post-link {
+    color: inherit;
+    font-family: inherit;
+}
