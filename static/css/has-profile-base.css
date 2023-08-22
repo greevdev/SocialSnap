@@ -73,3 +73,16 @@
 .checkbox-wrapper {
     width: fit-content;
 }
+
+::-webkit-scrollbar {
+    width: 0.5em;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #35383d;
+    border-radius: 1em;
+}
