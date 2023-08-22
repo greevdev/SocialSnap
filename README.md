@@ -27,7 +27,7 @@ Social Snap is a social media website created as part of the Python Web Framewor
   <code><img width="50" src="https://user-images.githubusercontent.com/25181517/192108374-8da61ba1-99ec-41d7-80b8-fb2f7c0a4948.png" alt="GitHub" title="GitHub"/></code>
 </div>
 
-## Installation
+## 🛠️ Installation
 
 1. Clone the repository: `git clone https://github.com/greevdev/SocialSnap.git`
 2. Navigate to the project directory: `cd SocialSnap`
@@ -36,13 +36,13 @@ Social Snap is a social media website created as part of the Python Web Framewor
 5. Create a superuser for the admin dashboard: `python manage.py createsuperuser`
 6. Run the development server: `python manage.py runserver`
 
-## Usage
+## 🚀 Usage
 
 1. Access the website at [http://localhost:8000](http://localhost:8000)
 2. Register a new account or log in with an existing one.
 3. Explore the features: create posts, follow users, interact with posts, search for users, and manage your profile.
 4. Admin dashboard: Access the admin panel at [http://localhost:8000/admin](http://localhost:8000/admin) using the superuser credentials.
 5. 
-## License
+## 📄 License
 
 This project is licensed under the [MIT License](LICENSE).
