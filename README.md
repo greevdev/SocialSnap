@@ -42,7 +42,7 @@ Social Snap is a social media website created as part of the Python Web Framewor
 2. Register a new account or log in with an existing one.
 3. Explore the features: create posts, follow users, interact with posts, search for users, and manage your profile.
 4. Admin dashboard: Access the admin panel at [http://localhost:8000/admin](http://localhost:8000/admin) using the superuser credentials.
-5. 
+
 ## 📄 License
 
 This project is licensed under the [MIT License](LICENSE).
